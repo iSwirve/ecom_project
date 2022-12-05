@@ -5,6 +5,8 @@ use App\Http\Controllers\ExcelController;
 use App\Http\Controllers\userController;
 use Illuminate\Support\Facades\Route;
 
+use function App\Http\Controllers\alert;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -144,3 +146,5 @@ Route::get('/deletecart', [userController::class, 'deletecart'])->name('deleteca
 Route::get('/goto_riwayat', function(){
     return view('riwayatbeli');
 });
+
+Route::post('/sendVerify', [userController::class, 'verifySeller']);
