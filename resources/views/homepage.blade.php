@@ -17,8 +17,13 @@
     @endphp
     @foreach ($barang as $barang)
         <div class="card">
+            <form action="" method="POST">
+            <a href="/detail_barang?barang=<?=$barang->id?>">
             <h4 style="text-align: center">{{$barang->nama_barang}}</h4>
+            <input name="idbarang" type="hidden" value="{{$barang->id}}">
             <img src="{{URL::asset('dummy.png')}}" style="width:90%; height:90%; margin:10px; border-radius:10px;">
+            </a>
+            </form>
             <button class="btn btn-success" id="cart" value="{{$barang->id}}"  style="width:250px; margin-left:-6px;" >Add to cart</button>
         </div>
     @endforeach

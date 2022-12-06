@@ -148,3 +148,6 @@ Route::get('/goto_riwayat', function(){
 });
 
 Route::post('/sendVerify', [userController::class, 'verifySeller']);
+
+//detailbarang
+Route::get('/detail_barang', [userController::class, 'detailbarang']);

@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
 use Illuminate\Support\Facades\DB;
+use SebastianBergmann\Environment\Console;
 
 use function App\Http\Controllers\alert as ControllersAlert;
 
@@ -418,6 +419,13 @@ class userController extends Controller
         Cart::where('id_barang', '=', $req->delbtn)->where('email', '=', Auth::user()->email)->delete();
         alert("sukses delete!");
         return view('cart');
+    }
+
+    public function detailbarang(Request $req){
+        $id = $req->query('barang');
+        alert($id);
+        session(['idbarang' => $id]);
+        return view('detailbarang');
     }
 }
 function alert($msg)
