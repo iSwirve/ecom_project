@@ -19,4 +19,4 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::get('/xendit/va/list', [XenditController::class, 'getListVa']);
+

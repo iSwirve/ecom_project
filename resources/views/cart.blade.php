@@ -81,7 +81,7 @@
                 </script>
             </tbody>
           </table>
-        <form action="{{route('bayar')}}" method="GET">
+        <form action="/xendit/va/list" method="GET">
           <div style="float: right"><span>Rp.</span><span id="subtotal"></span> <input type="hidden" name="total" id="totalharga"></div>
           <br>
           <div style="float: right"><button class="btn btn-success">Bayar</button></div> <br><br>

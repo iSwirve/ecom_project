@@ -3,6 +3,7 @@
 use App\Http\Controllers\adminController;
 use App\Http\Controllers\ExcelController;
 use App\Http\Controllers\userController;
+use App\Http\Controllers\XenditController;
 use Illuminate\Support\Facades\Route;
 
 use function App\Http\Controllers\alert;
@@ -129,7 +130,6 @@ Route::get('kategori', function(){
 });
 
 //getKatData
-
 Route::view('getKatData', 'kategori');
 
 Route::post('getKatData', [userController::class, 'getKatData']);
@@ -151,3 +151,17 @@ Route::post('/sendVerify', [userController::class, 'verifySeller']);
 
 //detailbarang
 Route::get('/detail_barang', [userController::class, 'detailbarang']);
+<<<<<<< Updated upstream
+=======
+
+Route::get('/paymentMethod', function(){
+    return view('paymentMethod');
+})->name('paymentMethod');
+
+Route::get('/checkout', function(){
+    return view('checkout');
+})->name('checkout');
+
+Route::get('/xendit/va/list', [XenditController::class, 'getListVa']);
+Route::post('/checkoutcart', [XenditController::class, 'createVA']);
+>>>>>>> Stashed changes

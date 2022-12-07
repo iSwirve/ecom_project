@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\barangmodel;
 use App\Models\request_saldo;
 use App\Models\Cart;
-
+use SebastianBergmann\Environment\Console;
 use App\Models\User;
 use App\Models\VerificationModel;
 use Barang;
@@ -421,6 +421,10 @@ class userController extends Controller
         return view('cart');
     }
 
+<<<<<<< Updated upstream
+=======
+    
+>>>>>>> Stashed changes
     public function detailbarang(Request $req){
         $id = $req->query('barang');
         alert($id);
