@@ -26,8 +26,8 @@
         </ul>
         <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll w-50" style="float: left">
             <li class="nav-item w-80" >
-                <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Search" style="width: 700px; margin-left:20px;" aria-label="Search">
+                <form class="d-flex" action="/search?keyword={{request()->get('searchbar')}}">
+                    <input class="form-control me-2" type="search" name="keyword" placeholder="Search" style="width: 700px; margin-left:20px;" aria-label="Search">
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
               </li>

@@ -1,19 +1,38 @@
-+@extends('template.homepage.main')
+@extends('template.homepage.main')
 
-<div>
-  {{-- data nya disini --}}
-  @php
-  $id = session('idbarang');
-  $barang = DB::table('barang')->where('id', '=', $id)->get();
-  @endphp
+@section('mainContent')
 
-  <h1>{{$barang}}</h1>
+{{-- data nya disini --}}
+@php
+$id = request()->query('barang');
+$barang = DB::table('barang')->where('id', '=', $id)->first();
+@endphp
+
+{{-- <h1>{{$barang}}</h1> --}}
+{{-- <img src="{{URL::asset('dummy.png')}}" style="width:90%; height:90%; margin:10px; border-radius:10px;"> --}}
+
+<div class="box">
+  <div style="background-color: white">
+    <img src="{{URL::asset('dummy.png')}}" style="width:30%; height:50%; margin:10px; border-radius:10px;float:left">
+    <div style="float: left;width: 50vw">
+      <h1>{{$barang->nama_barang}}</h1>
+      <h3>Rp. {{number_format($barang->harga,2,',','.')}}</h3>
+      <br>
+      <h4>Deskripsi:</h4>
+      <h4>{{$barang->deskripsi}}</h4>
+      <button class="btn btn-success" style="float: right;margin-top: 20vh">Masukkan ke Keranjang</button>
+    </div>
+  </div>
+
 </div>
 
 
 
 
 
+<br>
+
+@endsection
 
 @section('secondContent')
 
@@ -31,7 +50,7 @@
 
   .box {
     width: 100vw;
-    height: 200px;
+    height: 100vh;
     background-color: white;
     padding: 10px;
     border-bottom-left-radius: 75px;

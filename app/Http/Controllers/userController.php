@@ -57,6 +57,16 @@ class userController extends Controller
         }
     }
 
+    public function searchItem(Request $req)
+    {
+        $keyword = $req->query('keyword');
+        $temp_data = barangmodel::where('nama_barang', 'like', '%' . $keyword . '%')->get();
+        $datareturn = json_encode($temp_data);
+
+        return view('search', ['barangreturn' => $datareturn]);
+
+    }
+
     public function isiSaldo(Request $req)
     {
         $valid = [
@@ -423,7 +433,6 @@ class userController extends Controller
 
     public function detailbarang(Request $req){
         $id = $req->query('barang');
-        alert($id);
         session(['idbarang' => $id]);
         return view('detailbarang');
     }

@@ -161,6 +161,8 @@ Route::get('/checkout', function(){
     return view('checkout');
 })->name('checkout');
 
+Route::get('/search', [userController::class, 'searchItem']);
+
 Route::get('/xendit/va/list', [XenditController::class, 'getListVa']);
 Route::post('/checkoutcart', [XenditController::class, 'createVA']);
 
