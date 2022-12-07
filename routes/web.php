@@ -151,8 +151,7 @@ Route::post('/sendVerify', [userController::class, 'verifySeller']);
 
 //detailbarang
 Route::get('/detail_barang', [userController::class, 'detailbarang']);
-<<<<<<< Updated upstream
-=======
+
 
 Route::get('/paymentMethod', function(){
     return view('paymentMethod');
@@ -164,4 +163,4 @@ Route::get('/checkout', function(){
 
 Route::get('/xendit/va/list', [XenditController::class, 'getListVa']);
 Route::post('/checkoutcart', [XenditController::class, 'createVA']);
->>>>>>> Stashed changes
+
