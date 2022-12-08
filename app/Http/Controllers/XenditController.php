@@ -41,30 +41,41 @@ class XenditController extends Controller
         // session(['key' => 'value']);
         return view('paymentMethod', ['banks' => $banks]);
         // return response()->json($getVABanks);
+        
     }
 
     public function createVA(Request $req)
     {
-        Xendit::setApiKey($this->token);
-        $bankcode = $req->query("method");
+        // Xendit::setApiKey($this->token);
+        // $bankcode = $req->query("method");
         $total = $req->total;
         $email = $req->email;
-        clog($total);
+        // clog($total);
+        // $params = [
+        //     "external_id" => \uniqid(),
+        //     "bank_code" => $bankcode,
+        //     "name" => $email,
+        //     "expected_amount" => $total,
+        //     "is_closed" => true
+        // ];
+
+        // $createVa = \Xendit\VirtualAccounts::create($params);
+        // $vadata = json_encode($createVa);
+
         $params = [
             "external_id" => \uniqid(),
-            "bank_code" => $bankcode,
-            "name" => $email,
-            "expected_amount" => $total,
-            "is_closed" =>true
+            "payer_email" => $email,
         ];
+        $createInvoice = \Xendit\Invoice::create($params);
+        var_dump($createInvoice);
 
-        $createVa = \Xendit\VirtualAccounts::create($params);
-        $vadata = json_encode($createVa);
         return view('checkout', ['vadata' => $vadata]);
-        
     }
 
-    
+    public function makePayment(Request $req)
+    {
+        Xendit::setApiKey($this->token);
+    }
 }
 
 function clog($msg)

@@ -166,3 +166,8 @@ Route::get('/search', [userController::class, 'searchItem']);
 Route::get('/xendit/va/list', [XenditController::class, 'getListVa']);
 Route::post('/checkoutcart', [XenditController::class, 'createVA']);
 
+Route::get("/pay", function(){
+    return view('simulatePayment');
+});
+
+Route::post('/simulate', [XenditController::class, 'makePayment']);
