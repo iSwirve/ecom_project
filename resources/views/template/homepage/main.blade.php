@@ -23,9 +23,8 @@
     </style>
     @yield('customStyle')
 </head>
-<body style="background-color: darkgray">
+<body style="background-color: lightgray;">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
     @include('template.homepage.header')
     @yield('mainContent')
     @yield('secondContent')

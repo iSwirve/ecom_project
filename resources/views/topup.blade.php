@@ -1,6 +1,4 @@
 @extends('template.homepage.main')
-
-
 @section('mainContent')
 <div class="box">
 <form action="/isisaldo" method="GET">

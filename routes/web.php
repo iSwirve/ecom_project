@@ -44,6 +44,7 @@ Route::get('/adminconfirmver', [adminController::class, 'doCheckVerifySeller'])-
 Route::view('/senddata', 'sellerverifikasi');
 Route::post('/senddata', [userController::class, 'verification'])->name('verify');
 
+
 Route::view('/verifyAdmin', 'adminconfver');
 Route::post('/verifyAdmin', [adminController::class, 'doVerify'])->name('verifyAdmin');
 
@@ -151,7 +152,7 @@ Route::post('/sendVerify', [userController::class, 'verifySeller']);
 
 //detailbarang
 Route::get('/detail_barang', [userController::class, 'detailbarang']);
-
+Route::get('/gotochat', [userController::class, 'gotochat']);
 
 Route::get('/paymentMethod', function(){
     return view('paymentMethod');

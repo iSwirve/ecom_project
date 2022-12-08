@@ -192,8 +192,6 @@ input[type=submit]:hover {
     height:100%;
     background-color: white;
     padding: 10px;
-    border-bottom-left-radius: 75px;
-    border-bottom-right-radius: 75px;
 }
 
 .box2{

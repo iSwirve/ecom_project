@@ -29,7 +29,6 @@
         <button class="btn btn-success" id="cart" value="{{$barang->id}}" style="width:250px; margin-left:-6px;">Add to
             cart</button>
     </div>
-
     @endforeach
 
 </div>
@@ -123,8 +122,6 @@
         height: 200px;
         background-color: white;
         padding: 10px;
-        border-bottom-left-radius: 75px;
-        border-bottom-right-radius: 75px;
     }
 
     .card {

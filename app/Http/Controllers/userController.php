@@ -206,6 +206,13 @@ class userController extends Controller
         return view('tokoku-update', ['data_barang' => $data_barang]);
     }
 
+    public function gotochat(Request $req)
+    {
+        $id = $req->query('barang');
+        session(['idbarang' => $id]);
+        return view('chat');
+    }
+
     public function acceptreq(Request $req)
     {
         $reqsaldo = request_saldo::all();

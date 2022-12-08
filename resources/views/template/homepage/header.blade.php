@@ -6,7 +6,6 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarScroll">
         <ul class="navbar-nav my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Menu
