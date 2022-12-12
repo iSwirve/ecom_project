@@ -108,17 +108,11 @@ Route::get('/getSphread',[ExcelController::class,'getSphreadExcel'])->name('donw
 Route::get('/log',[userController::class,'logout']);
 Route::group(['middleware' => ['auth']], function () {
     Route::group(['middleware' => ['auth_verification:admin']], function () {
-    	/*
-    		Route Khusus untuk role admin
-    	*/
         Route::get('/homepage', function(){
             return view('homepage');
         });
     });
     Route::group(['middleware' => ['auth_verification:user']], function () {
-    	/*
-    		Route Khusus untuk role user
-    	*/
         Route::get('/homepage', function(){
             return view('homepage');
         });
