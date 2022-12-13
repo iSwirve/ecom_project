@@ -146,7 +146,7 @@ Route::post('/sendVerify', [userController::class, 'verifySeller']);
 
 //detailbarang
 Route::get('/detail_barang', [userController::class, 'detailbarang']);
-Route::get('/gotochat', [userController::class, 'gotochat']);
+Route::post('/addchat', [userController::class, 'addchat']);
 
 Route::get('/paymentMethod', function(){
     return view('paymentMethod');

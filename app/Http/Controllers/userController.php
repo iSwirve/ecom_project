@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\barangmodel;
 use App\Models\request_saldo;
 use App\Models\Cart;
+use App\Models\chatModel;
 use App\Models\User;
 use App\Models\VerificationModel;
 use Barang;
@@ -206,11 +207,22 @@ class userController extends Controller
         return view('tokoku-update', ['data_barang' => $data_barang]);
     }
 
-    public function gotochat(Request $req)
+    public function addchat(Request $req)
     {
-        $id = $req->query('barang');
-        session(['idbarang' => $id]);
-        return view('chat');
+        $data = $req->all();
+
+        try {
+            chatModel::create(
+                [
+                    "message" => $data["message"],
+                    "penerima" => $data["penerima"],
+                    "pengirim" => $data["pengirim"]
+                ]
+            );
+            return response()->json(['success' => "sukses"]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => $e]);
+        }
     }
 
     public function acceptreq(Request $req)
