@@ -7,7 +7,6 @@
         $data = \App\Models\isSeller::where('email', Auth::user()->email)->first();
         $kategori=DB::table('kategori')->get();
     @endphp
-    @if($data != null)
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <div class="w3-sidebar w3-bar-block w3-white" style="width:130px; height: 100%">
@@ -62,14 +61,7 @@
             </div>
         </div>
     </div>
-    @else
-        <div class="box2">
-            <div class="ml-5">
-                <div class="mt-5">Akun anda belum diverifikasi menjadi seller</div>
-                <button class="btn btn-success" onclick="location.href='{{ url('verifikasi') }}'">Verifikasi akun saya</button>
-            </div>
-        </div>
-    @endif
+    
 <script>
     function openLink(evt, animName) {
         var i, x, tablinks;

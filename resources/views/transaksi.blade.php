@@ -3,60 +3,50 @@
 
 @section('mainContent')
 
-<div class="box">
-@csrf
-{{$vadata}}
 @php
-$inv = json_decode($vadata);
+$hjual=DB::table('hjual')->where('email_pembeli','=',Auth::user()->email)->get();
 @endphp
-<h1>Terimakasih sudah berbelanja, silahkan melakukan pembayaran</h1>
-<h4>INVOICE: {{$inv->external_id}}</h4>
-<h4>Total harga: {{$inv->expected_amount}}</h4>
-<h4></h4>
+<div class="box">
+    <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white" style="float:left">
+        <div class="position-sticky">
+            <div class="list-group list-group-flush mt-1">
+                <a href="#" class="list-group-item list-group-item-action py-2 ripple active" aria-current="true">
+                    <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Belum dibayar</span>
+                </a>
+                <a href="/paid" class="list-group-item list-group-item-action py-2 ripple" aria-current="true">
+                    <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Sudah dibayar</span>
+                </a>
+                </a>
+            </div>
+        </div>
+    </nav>
+    <div class="container1">
+        <div class="position-sticky">
+            <div class="list-group list-group-flush mt-1">
+                aaa
+                {{-- <a href="{{route('goto_editprof')}}" class="list-group-item list-group-item-action py-2 ripple"
+                    aria-current="true">
+                    <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Edit profil</span>
+                </a>
+                <a href="{{route('goto_gantipass')}}" class="list-group-item list-group-item-action py-2 ripple"
+                    aria-current="true">
+                    <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Ganti Password</span>
+                </a> --}}
+            </div>
+        </div>
+    </div>
 </div>
-
-
 
 @endsection
 
+
 @section('customStyle')
 <style>
-    body {
-        background-color: #fff;
-    }
-
-    input[type=number],
-    select {
-        width: 100%;
-        padding: 12px 20px;
-        margin: 8px 0;
-        display: inline-block;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-sizing: border-box;
-    }
-
-    .submit {
-        width: 100%;
-        background-color: #4CAF50;
-        color: white;
-        padding: 14px 20px;
-        margin: 8px 0;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-
-    .submit:hover {
-        background-color: #45a049;
-    }
-
-
     .box {
         width: 100vw;
-        height: 100%;
+        height: 500px;
         background-color: white;
-        padding: 40px;
+        padding: 10px;
         border-bottom-left-radius: 75px;
         border-bottom-right-radius: 75px;
     }

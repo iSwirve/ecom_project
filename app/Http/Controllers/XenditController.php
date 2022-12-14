@@ -9,13 +9,15 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\barangmodel;
 use App\Models\request_saldo;
 use App\Models\Cart;
+use App\Models\HJual;
+
 
 use App\Models\User;
 use App\Models\VerificationModel;
 use Barang;
 use Facade\Ignition\DumpRecorder\Dump;
 use GuzzleHttp\Psr7\Message;
-use Hjual;
+// use Hjual;
 use Illuminate\Database\Query\Expression;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
@@ -41,33 +43,38 @@ class XenditController extends Controller
         // session(['key' => 'value']);
         return view('paymentMethod', ['banks' => $banks]);
         // return response()->json($getVABanks);
-        
+
     }
 
     public function createVA(Request $req)
     {
-        // Xendit::setApiKey($this->token);
-        // $bankcode = $req->query("method");
+        Xendit::setApiKey($this->token);
+        $invoice = \uniqid();
+
+        $bankcode = $req->query("method");
         $total = $req->total;
         $email = $req->email;
         // clog($total);
-        // $params = [
-        //     "external_id" => \uniqid(),
-        //     "bank_code" => $bankcode,
-        //     "name" => $email,
-        //     "expected_amount" => $total,
-        //     "is_closed" => true
-        // ];
-
-        // $createVa = \Xendit\VirtualAccounts::create($params);
-        // $vadata = json_encode($createVa);
-
         $params = [
-            "external_id" => \uniqid(),
-            "payer_email" => $email,
+            "external_id" => $invoice,
+            "bank_code" => $bankcode,
+            "name" => $email,
+            "expected_amount" => $total,
+            "is_single_use" => true,
+            "is_closed" => true
         ];
-        $createInvoice = \Xendit\Invoice::create($params);
-        var_dump($createInvoice);
+
+        $createVa = \Xendit\VirtualAccounts::create($params);
+        $vadata = json_encode($createVa);
+        HJual::create(
+            [
+                "invoice_id" => $invoice,
+                "email_pembeli" => $email,
+                "total_pembelian" => $total,
+                "is_complete" => '0'
+            ]
+        );
+
 
         return view('checkout', ['vadata' => $vadata]);
     }

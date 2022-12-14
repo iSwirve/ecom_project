@@ -31,6 +31,10 @@ Route::get('/tokoku', function(){
     return view('tokoku');
 })->name('tokoku');
 
+Route::get('/transaksi', function(){
+    return view('transaksi');
+})->name('transaksi');
+
 Route::get('/verifyseller', function(){
     return view('adminconfver');
 })->name('verifyseller');

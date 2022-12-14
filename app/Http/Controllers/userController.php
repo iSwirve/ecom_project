@@ -455,6 +455,8 @@ class userController extends Controller
         session(['idbarang' => $id]);
         return view('detailbarang');
     }
+
+    
 }
 function alert($msg)
 {

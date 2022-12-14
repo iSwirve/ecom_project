@@ -16,6 +16,7 @@
               @if(Auth::check())
                 <li><a class="dropdown-item" href="/mycart">Keranjangku</a></li>
                 <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="/transaksi">Transaksiku</a></li>
                 <li><a class="dropdown-item" href="/tokoku">Ke toko saya</a></li>
                 <li><a class="dropdown-item" href="/setelan">Setelan akun</a></li>
               @endif
