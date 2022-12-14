@@ -5,12 +5,7 @@
 @php
 $id = request()->query('barang');
 $barang = DB::table('barang')->where('id', '=', $id)->first();
-$penjual = DB::table('user')->where('email','=',$barang->email_penjual)->first();
-$user = Auth::user();
 @endphp
-{{-- <h1>{{$barang}}</h1> --}}
-{{-- <img src="{{URL::asset('dummy.png')}}" style="width:90%; height:90%; margin:10px; border-radius:10px;"> --}}
-
 <div class="box">
     <img src="{{URL::asset('dummy.png')}}" style="width:20%; height:60%; margin:10px; border-radius:10px;float:left">
     <div style="float: left; width: 50vw; margin-left: 30px">
@@ -20,93 +15,13 @@ $user = Auth::user();
         <h4>Deskripsi:</h4>
         <h4>{{$barang->deskripsi}}</h4>
         <button class="btn btn-success" style="float: right;margin-top: 20vh">Masukkan ke Keranjang</button>
+        <a href="/gotochat?barang=<?=$barang->id?>" class="btn btn-success" style="float: right; margin-right:10px; margin-top:20vh;">Chat</a>
     </div>
 </div>
 <br>
 @endsection
 
 @section('secondContent')
-@if ($user != null)
-  <button class="open-button" onclick="openForm()">Chat</button>
-  <div class="form-popup" id="myForm">
-    <form class="form-container">
-    <h4>Chat</h4>
-    <div class="boxchat" id="boxchat">
-      <div class="container">
-        <h4 alt="name"> {{$penjual->fname}} </h2>
-        <p>Hello. How are you today?</p>
-        <span class="time-right">11:00</span>
-      </div>
-      <div class="container">
-        <h4 alt="name"> Penjual </h2>
-        <p>Hello. How are you today?</p>
-        <span class="time-right">11:00</span>
-      </div>
-      <div class="container darker">
-        <h4 alt="name" class="right"> {{$user->fname}} </h2>
-        <p>Hey! I'm fine. Thanks for asking!</p>
-        <span class="time-left">11:01</span>
-      </div>
-      <div class="container darker">
-        <h4 alt="name" class="right"> Pembeli </h2>
-        <p>Hey! I'm fine. Thanks for asking!</p>
-        <span class="time-left">11:01</span>
-      </div>
-    </div>
-    <label for="msg"><b>Message</b></label>
-    <input type="TEXT" id="message" placeholder="Type message" name="msg">
-    <button type="submit" id="submit" class="btn" onclick="sendText()">Send</button>
-    <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
-  </form>
-  </div>
-@endif
-
-<script>
-  function openForm() {
-    document.getElementById("myForm").style.display = "block";
-  }
-
-  function closeForm() {
-    document.getElementById("myForm").style.display = "none";
-  }
-
-  function sendText(){
-    var msg = document.getElementById("message").value;
-
-    // $.ajaxSetup({
-    //   headers: {
-    //     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    //   }
-    // });
-    // $.ajax({
-    //   url: "addchat",
-    //   type: "POST",
-    //   data: {
-    //     message:msg,
-    //     penerima:$barang->email_penjual,
-    //     pengirim:$user->email,
-    //   },
-    //   success:function(data){
-
-    //     // <div class="container">
-    //     //   <h4 alt="name"> {{$penjual->fname}} </h2>
-    //     //   <p>Hello. How are you today?</p>
-    //     //   <span class="time-right">11:00</span>
-    //     // </div>
-
-
-
-    //     // var container = document.createElement("div");
-    //     // container.className = "container";
-    //     // var h4 = document.createElement("h4");
-    //     // h4.textContent = {{$penjual->fname}};
-    //     // container.appendChild(h4);
-
-    //     // document.getElementById("boxchat").appendChild(container);
-    //   }
-    // })
-  }
-</script>
 @endsection
 
 @section('customStyle')

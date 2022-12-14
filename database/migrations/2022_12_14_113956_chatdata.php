@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class kontak extends Migration
+class Chatdata extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class kontak extends Migration
      */
     public function up()
     {
-        Schema::create('kontak', function (Blueprint $table) {
+        Schema::create('chatdata', function (Blueprint $table) {
             $table->id();
-            $table->string('email');
-            $table->string('pemilik');
-            $table->foreign('email')->references('email')->on('user')->onDelete('cascade');
-            $table->foreign('pemilik')->references('email')->on('user')->onDelete('cascade');
+            $table->string('nama');
+            $table->string('message');
+            $table->bigInteger('id_chat')->unsigned();
+            $table->foreign('id_chat')->references('id')->on('kontak')->onDelete('cascade');
             $table->timestamps();
         });
     }

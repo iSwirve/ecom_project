@@ -5,13 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\barangmodel;
 use App\Models\request_saldo;
 use App\Models\Cart;
-use App\Models\chatModel;
+use App\Models\kontak;
 use App\Models\User;
 use App\Models\VerificationModel;
-use Barang;
-use Facade\Ignition\DumpRecorder\Dump;
-use GuzzleHttp\Psr7\Message;
-use Hjual;
 use Illuminate\Database\Query\Expression;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,6 +16,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use RealRashid\SweetAlert\Facades\Alert;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
@@ -205,24 +202,6 @@ class userController extends Controller
         $data_barang = db::table('barang')->where('id', '=', $id)->get();
         $data_barang = json_encode($data_barang);
         return view('tokoku-update', ['data_barang' => $data_barang]);
-    }
-
-    public function addchat(Request $req)
-    {
-        $data = $req->all();
-
-        try {
-            chatModel::create(
-                [
-                    "message" => $data["message"],
-                    "penerima" => $data["penerima"],
-                    "pengirim" => $data["pengirim"]
-                ]
-            );
-            return response()->json(['success' => "sukses"]);
-        } catch (\Exception $e) {
-            return response()->json(['success' => $e]);
-        }
     }
 
     public function acceptreq(Request $req)
@@ -456,7 +435,29 @@ class userController extends Controller
         return view('detailbarang');
     }
 
-    
+    public function gotochat(Request $req){
+        try {
+            $id = $req->query('barang');
+            $barang = barangmodel::find($id);
+            $kontak = kontak::find(Auth::user());
+            if(Auth::user()->email == $barang -> email_penjual)
+                return view('chat');
+            if(sizeof($kontak)<1)
+            {
+                kontak::create([
+                    "email" => $barang->email_penjual,
+                    "pemilik" => Auth::user()->email,
+                ]);
+            }
+            return view('chat');
+            alert("berhasil");
+        } catch (Exception $e) {
+            return view('chat');
+        }
+
+    }
+
+
 }
 function alert($msg)
 {

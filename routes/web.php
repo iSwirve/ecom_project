@@ -130,7 +130,7 @@ Route::get('kategori', function(){
 
 //getKatData
 Route::view('getKatData', 'kategori');
-
+Route::get('/gotochat', [userController::class, 'gotochat']);
 Route::post('getKatData', [userController::class, 'getKatData']);
 
 

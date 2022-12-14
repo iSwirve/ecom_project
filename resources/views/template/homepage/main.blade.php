@@ -20,6 +20,57 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <style>
 
+    .main {
+        width: 90%;
+        margin: 0 auto;
+        margin-top: 200px;
+        height: auto;
+    }
+
+    h2 {
+        border-bottom: 1px solid gray;
+    }
+
+    a {
+        text-decoration: none;
+        display: inline-block;
+        padding: 8px 16px;
+    }
+
+    a:hover {
+        background-color: #ddd;
+        color: black;
+    }
+
+    .previous {
+        margin-top: 7vw;
+        background-color: #f1f1f1;
+        position: absolute;
+        font-weight: 900;
+        color: black;
+    }
+
+    .next {
+        margin-top: 7vw;
+        float: right;
+        background-color: #f1f1f1;
+        font-weight: 900;
+        color: black;
+    }
+
+    .round {
+        border-radius: 50%;
+    }
+
+    @media screen and (max-width: 600px) {
+
+        .col-25,
+        .col-75,
+        input[type=submit] {
+            width: 100%;
+            margin-top: 0;
+        }
+    }
     </style>
     @yield('customStyle')
 </head>
