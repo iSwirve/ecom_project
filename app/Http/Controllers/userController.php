@@ -65,7 +65,6 @@ class userController extends Controller
         $datareturn = json_encode($temp_data);
 
         return view('search', ['barangreturn' => $datareturn]);
-
     }
 
     public function isiSaldo(Request $req)
@@ -304,7 +303,7 @@ class userController extends Controller
             File::makeDirectory($path, $mode = 0777, true, true);
         }
         $file = $req->file('ktp')->getClientOriginalName();
-        if(!Storage::disk('public_uploads')->put($img, $file)) {
+        if (!Storage::disk('public_uploads')->put($img, $file)) {
             return false;
         }
 
@@ -315,7 +314,7 @@ class userController extends Controller
             File::makeDirectory($path, $mode = 0777, true, true);
         }
         $file = $req->file('selfie');
-        if(!Storage::disk('public_uploads')->put($img, $file)) {
+        if (!Storage::disk('public_uploads')->put($img, $file)) {
             return false;
         }
 
@@ -346,16 +345,15 @@ class userController extends Controller
 
     public function editprofil(Request $req)
     {
-        // $valid=[
-        //     "fname"=> ["required"],
-        //     "lname"=> ["required"],
-        //     "email"=> ["required"],
-        //     "telnum"=>["required","digits_between:10,12"],
-        // ];
-        // $msg = [
-        //     "telnum.digits_between:10,12"=>"jumlah angka harus diantara 10-12"
-        // ];
-        // $this->validate($req,$valid,$msg);
+        $valid = [
+            "fname" => ["required"],
+            "lname" => ["required"],
+            "telnum" => ["required", "digits_between:10,12"],
+        ];
+        $msg = [
+            "telnum.digits_between:10,12" => "jumlah angka harus diantara 10-12"
+        ];
+        $this->validate($req, $valid, $msg);
         $temp_data = User::find(Auth::user()->email);
         $temp_data->fname = $req->fname;
         $temp_data->lname = $req->lname;
@@ -450,13 +448,12 @@ class userController extends Controller
     }
 
 
-    public function detailbarang(Request $req){
+    public function detailbarang(Request $req)
+    {
         $id = $req->query('barang');
         session(['idbarang' => $id]);
         return view('detailbarang');
     }
-
-    
 }
 function alert($msg)
 {
