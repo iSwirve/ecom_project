@@ -10,6 +10,7 @@ use App\Models\barangmodel;
 use App\Models\request_saldo;
 use App\Models\Cart;
 use App\Models\HJual;
+use App\Models\DJual;
 
 
 use App\Models\User;
@@ -74,7 +75,20 @@ class XenditController extends Controller
                 "is_complete" => '0'
             ]
         );
-
+        $datacart = Cart::where('email', '=', Auth::user()->email)->get();
+        foreach ($datacart as $cart) {
+            DJual::create(
+                [
+                    "invoice_id" => $invoice,
+                    "email_pembeli" => $email,
+                    "email_penjual" => "aa",
+                    "id_barang" => $cart->id_barang,
+                    "alamat" => "ex2",
+                    "harga" => "0",
+                    "is_complete" => 0
+                ]
+            );
+        }
 
         return view('checkout', ['vadata' => $vadata]);
     }

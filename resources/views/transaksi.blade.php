@@ -23,7 +23,31 @@ $hjual=DB::table('hjual')->where('email_pembeli','=',Auth::user()->email)->get()
     <div class="container1">
         <div class="position-sticky">
             <div class="list-group list-group-flush mt-1">
-                aaa
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Invoice</th>
+                            <th scope="col">Total</th>
+                            <th scope="col">Verifikasi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            
+            
+                        @foreach($hjual as $data)
+                        <form action="" method="post">
+                            @csrf
+                            <input type="hidden" name="total" value="{{request()->query("total")}}">
+                            <input type="hidden" name="email" value="{{Auth::user()->email}}">
+                            <tr>
+                                <td>{{$data->invoice_id}}</td>
+                                <td>{{$data->total_pembelian}}</td>
+                                <td><button class="btn btn-success">Verifikasi</button></td>
+                            </tr>
+                        </form>
+                        @endforeach
+                    </tbody>
+                </table>
                 {{-- <a href="{{route('goto_editprof')}}" class="list-group-item list-group-item-action py-2 ripple"
                     aria-current="true">
                     <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Edit profil</span>
