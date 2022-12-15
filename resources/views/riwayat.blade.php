@@ -6,11 +6,11 @@
     <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white" style="float:left">
         <div class="position-sticky">
           <div class="list-group list-group-flush mt-1">
-            <a href="/unpaid" class="list-group-item list-group-item-action py-2 ripple" aria-current="true">
+            <a href="/transaksi" class="list-group-item list-group-item-action py-2 ripple" aria-current="true">
               <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Belum dibayar</span>
             </a>
             <a href="#" class="list-group-item list-group-item-action py-2 ripple active" aria-current="true">
-                <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Sudah dibayar</span>
+                <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Riwayat Pembelian saya</span>
             </a>
           </div>
         </div>
@@ -18,7 +18,31 @@
     <div class="container1">
         <div class="position-sticky">
             <div class="list-group list-group-flush mt-1">
-                
+                <table class="table table-striped" id="itemtable">
+                    <thead>
+                      <tr>
+                        <th scope="col">Total pembelian</th>
+                        <th scope="col">Keterangan</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                        @php
+                            $hjualdata = DB::table('hjual')->where('email_pembeli', '=', Auth::user()->email)->get();
+                            $ctr = 0;
+
+                        @endphp
+
+                        @foreach ($hjualdata as $data)
+                        <tr>
+                            <td>{{$data->total_pembelian}}</td>
+                            <td>{{$data->created_at}}</td>
+                        </tr>
+
+                        @endforeach
+
+                    </tbody>
+                  </table>
             </div>
           </div>
     </div>

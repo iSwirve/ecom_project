@@ -4,7 +4,7 @@
 @section('mainContent')
 
 @php
-$hjual=DB::table('hjual')->where('email_pembeli','=',Auth::user()->email)->get();
+$hjual=DB::table('hjual')->where('email_pembeli','=',Auth::user()->email)->where("is_complete", '=', 0)->get();
 @endphp
 <div class="box">
     <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white" style="float:left">
@@ -13,8 +13,8 @@ $hjual=DB::table('hjual')->where('email_pembeli','=',Auth::user()->email)->get()
                 <a href="#" class="list-group-item list-group-item-action py-2 ripple active" aria-current="true">
                     <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Belum dibayar</span>
                 </a>
-                <a href="/paid" class="list-group-item list-group-item-action py-2 ripple" aria-current="true">
-                    <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Sudah dibayar</span>
+                <a href="/riwayatpembelian" class="list-group-item list-group-item-action py-2 ripple" aria-current="true">
+                    <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Riwayat Pembelian Saya</span>
                 </a>
                 </a>
             </div>
@@ -35,7 +35,7 @@ $hjual=DB::table('hjual')->where('email_pembeli','=',Auth::user()->email)->get()
             
             
                         @foreach($hjual as $data)
-                        <form action="" method="post">
+                        <form action="/verifyPayment?invoice={{$data->invoice_id}}" method="post">
                             @csrf
                             <input type="hidden" name="total" value="{{request()->query("total")}}">
                             <input type="hidden" name="email" value="{{Auth::user()->email}}">
@@ -60,7 +60,7 @@ $hjual=DB::table('hjual')->where('email_pembeli','=',Auth::user()->email)->get()
         </div>
     </div>
 </div>
-
+@include('sweetalert::alert', ['cdn' => "https://cdn.jsdelivr.net/npm/sweetalert2@9"])
 @endsection
 
 
@@ -209,4 +209,5 @@ $hjual=DB::table('hjual')->where('email_pembeli','=',Auth::user()->email)->get()
         /* Scrollable contents if viewport is shorter than content. */
     }
 </style>
+
 @endsection

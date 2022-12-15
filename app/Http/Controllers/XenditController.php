@@ -31,6 +31,15 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Xendit\Xendit;
 
+
+
+use App\Models\kontak;
+
+use Exception;
+
+use SebastianBergmann\Environment\Console;
+use function App\Http\Controllers\alert as ControllersAlert;
+
 class XenditController extends Controller
 {
     private $token = "xnd_development_VeXoqviLcXWnqn1mZUzElKNKMdr7KjAvIYxMhEOiNTf2kWZ0DuNW4mUjqJlvP7E";
@@ -85,7 +94,7 @@ class XenditController extends Controller
                     "id_barang" => $cart->id_barang,
                     "alamat" => "ex2",
                     "harga" => "0",
-                    "is_complete" => 0
+                    "is_complete" => '0'
                 ]
             );
         }
@@ -93,9 +102,38 @@ class XenditController extends Controller
         return view('checkout', ['vadata' => $vadata]);
     }
 
-    public function makePayment(Request $req)
+    public function verifyPayment(Request $req)
     {
+        $invoice = $req->query("invoice");
         Xendit::setApiKey($this->token);
+        $params = [
+            'types' => 'PAYMENT',
+            'query-param' => 'true'
+        ];
+
+        $transactions = \Xendit\Transaction::list($params);
+        // var_dump($transactions["data"]);
+        $isPaid = false;
+        foreach ($transactions["data"] as $trans) {
+            if ($trans["reference_id"] == $invoice) {
+                $isPaid = true;
+            }
+        }
+
+        if ($isPaid) {
+            $hjualtemp = HJual::where('invoice_id', '=', $invoice)->first();
+            $hjualtemp->is_complete = 1;
+            $hjualtemp->save();
+
+            DJual::where('invoice_id', '=', $invoice)->update(['is_complete' => 1]);
+            
+            Alert::success('Sukses Verifikasi', 'Terimakasih sudah melakukan pembayaran');
+        } else {
+            Alert::error('Gagal Verifikasi', 'Kamu belum melakukan pembayaran');
+        }
+
+
+        return redirect("/transaksi");
     }
 }
 

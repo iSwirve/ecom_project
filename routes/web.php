@@ -170,3 +170,7 @@ Route::get("/pay", function(){
 });
 
 Route::post('/simulate', [XenditController::class, 'makePayment']);
+Route::post("/verifyPayment", [XenditController::class, 'verifyPayment']);
+Route::get("/riwayatpembelian", function(){
+    return view("riwayat");
+})->name("riwayat");
