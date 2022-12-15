@@ -14,10 +14,12 @@ class Hjual extends Migration
     public function up()
     {
         Schema::create('hjual', function (Blueprint $table) {
-            $table->id();
+            $table->string("invoice_id")->primary();
             $table->string('email_pembeli');
             $table->foreign('email_pembeli')->references('email')->on('user')->onDelete('cascade');
             $table->integer('total_pembelian');
+            $table->integer('is_complete');
+
             $table->timestamps();
         });
     }
