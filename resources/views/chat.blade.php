@@ -4,6 +4,7 @@
 @php
   $kontak = DB::table('kontak')->get();
   $chat = DB::table('chatdata')->get();
+  $emailuser = Auth::user()->email;
 @endphp
 <div class="split left">
 <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -24,32 +25,7 @@
 </div>
 
 <div class="split right" id="formchat">
-    <div class="boxchat" id="boxchat">
-        <input type="hidden" id="idchat" name="idchat">
-        @php
-            $data = DB::table('kontak')->get();
-        @endphp
-        @foreach ($data as $data)
-            @if ($data->pemilik == Auth::user()->email)
-                @foreach($chat as $chate)
-                    @if ($chate->id_chat == $data->id)
-                        @if($chate->nama == Auth::user()->email)
-                            <div class="container darker">
-                                <h4>{{$chate->nama}}</h4>
-                                <p>{{$chate->message}}</p>
-                            </div>
-                        @else
-                            <div class="container">
-                                <h4>{{$chate->nama}}</h4>
-                                <p>{{$chate->message}}</p>
-                            </div>
-                        @endif
-                    @endif
-                @endforeach
-            @endif
-        @endforeach
-
-    </div>
+    <div class="boxchat" id="boxchat"></div>
     <input type="text" id="message" name="message" placeholder="type message here..">
     <input type="submit" id="send" name="send">
 </div>
@@ -61,18 +37,40 @@
     var idchat;
     function showchat($idchat)
     {
+      $("#boxchat").empty();
       var email = document.getElementById(`${$idchat}`).value;
       document.getElementById('formchat').style.visibility = "visible";
-      document.getElementById('idchat').value=$idchat;
       idchat = $idchat;
+      var chat = JSON.parse('<?= $chat ?>');
+      for (let index = 0; index < chat.length; index++) {
+        if(chat[index]['id_chat'] == $idchat)
+        {
+            if(chat[index]['nama'] == '<?= $emailuser ?>')
+            {
+                $("#boxchat").append(
+                    "<div class=\"container darker\">" +
+                        "<h4>" + chat[index]['nama'] + "</h4>" +
+                        "<p>" + chat[index]['message'] + "</p>"+
+                    "</div>"
+                );
+            }
+            else
+            {
+                $("#boxchat").append(
+                    "<div class=\"container\">" +
+                        "<h4>" + chat[index]['nama'] + "</h4>" +
+                        "<p>" + chat[index]['message'] + "</p>"+
+                    "</div>"
+                );
+            }
+        }
+      }
 
     }
-
 
     $(document).on('click', '#send', function(e) {
         var message = document.getElementById('message').value;
         var nama = document.getElementById(`${idchat}`).value;
-
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
