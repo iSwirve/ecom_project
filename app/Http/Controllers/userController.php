@@ -457,7 +457,7 @@ class userController extends Controller
         }
     }
 
-    public function addtochat(Request $req)
+    public function addchat(Request $req)
     {
         $data = $req->all();
         chatdata::create(

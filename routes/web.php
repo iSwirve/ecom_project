@@ -137,7 +137,7 @@ Route::post('getKatData', [userController::class, 'getKatData']);
 Route::view('addCart', 'kategori');
 Route::post('addCart', [userController::class, 'addtoCart']);
 
-Route::post('addchat',[userController::class,'addtochat']);
+Route::post('addchat',[userController::class,'addchat']);
 
 Route::view('mycart', 'cart');
 Route::get('/bayar', [userController::class, 'checkout'])->name('bayar');

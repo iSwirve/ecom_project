@@ -3,6 +3,7 @@
 @section('mainContent')
 @php
   $kontak = DB::table('kontak')->get();
+  $chat = DB::table('chatdata')->get();
 @endphp
 <div class="split left">
 <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -24,7 +25,22 @@
 
 <div class="split right" id="formchat">
     <div class="boxchat" id="boxchat">
-
+        <input type="text" id="idchat" name="idchat">
+        @foreach($chat as $chate)
+            @if ($chate->id_chat)
+                @if($chate->nama == Auth::user()->email)
+                    <div class="container darker">
+                        <h4>{{$chate->nama}}</h4>
+                        <p>{{$chate->message}}</p>
+                    </div>
+                @else
+                    <div class="container">
+                        <h4>{{$chate->nama}}</h4>
+                        <p>{{$chate->message}}</p>
+                    </div>
+                @endif
+            @endif
+        @endforeach
     </div>
     <input type="text" id="message" name="message" placeholder="type message here..">
     <input type="submit" id="send" name="send">
@@ -35,31 +51,25 @@
 @section('secondContent')
   <script>
     var idchat;
-    var y=0;
     function showchat($idchat)
     {
       var email = document.getElementById(`${$idchat}`).value;
       document.getElementById('formchat').style.visibility = "visible";
-      idchat = $idchat
+      document.getElementById('idchat').value=$idchat;
+      idchat = $idchat;
+
     }
 
-    $(document).one('click', '#send', function(e) {
+
+    $(document).on('click', '#send', function(e) {
         var message = document.getElementById('message').value;
         var nama = document.getElementById(`${idchat}`).value;
-
-        $("#boxchat").append(
-            `<div class=\"container darker\">` +
-                "<h4>" + nama + "</h4>" +
-                "<p>" + message + "</p>"+
-            "</div>"
-        );
 
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-
         $.ajax({
             url: "addchat",
             type: "post",
@@ -69,7 +79,7 @@
             },
             success:function(data){
                 $("#boxchat").append(
-                    "<div class=\"container\">" +
+                    "<div class=\"container darker\">" +
                         "<h4>" + nama + "</h4>" +
                         "<p>" + message + "</p>"+
                     "</div>"
@@ -77,13 +87,6 @@
             }
         })
     });
-
-
-
-
-
-
-
   </script>
 @endsection
 
@@ -191,6 +194,7 @@ input[type=submit]:hover {
   padding-left: 10px;
   padding-bottom: 10px;
   margin-top: 10px;
+  float: left;
 }
 
 .darker {
