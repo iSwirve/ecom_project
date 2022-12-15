@@ -17,8 +17,7 @@ class Chatdata extends Migration
             $table->id();
             $table->string('nama');
             $table->string('message');
-            $table->bigInteger('id_chat')->unsigned();
-            $table->foreign('id_chat')->references('id')->on('kontak')->onDelete('cascade');
+            $table->string('id_chat');
             $table->timestamps();
         });
     }

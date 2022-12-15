@@ -3,42 +3,29 @@
 @section('mainContent')
 @php
   $kontak = DB::table('kontak')->get();
-
-
 @endphp
-<script>
-
-</script>
 <div class="split left">
+<meta name="csrf-token" content="{{ csrf_token() }}">
+{!! csrf_field() !!}
   @foreach ($kontak as $kontak)
     @if ($kontak->email == Auth::user()->email )
       @php
           $user = \App\Models\User::where('email', $kontak->pemilik)->first();
       @endphp
-      <button class="button button2"><img src="dummy.png" alt="Avatar" class="avatar" id="avatarmenu" value="{{$kontak->pemilik}}"><div class="account">{{$user->fname}} {{$user->lname}}</div></button>
+      <button class="button button2" id="{{$kontak->id}}" onclick="showchat('{{$kontak->id}}')" value="{{Auth::user()->fname." ".Auth::user()->lname}}"><img src="dummy.png" alt="Avatar" class="avatar" id="avatarmenu"><div class="account">{{$user->fname}} {{$user->lname}}</div></button>
     @elseif ($kontak->pemilik == Auth::user()->email)
       @php
-        $user = \App\Models\User::where('email', $kontak->email)->first();
+          $user = \App\Models\User::where('email', $kontak->email)->first();
       @endphp
-      <button class="button button2"><img src="dummy.png" alt="Avatar" class="avatar" id="avatarmenu" value="{{$kontak->email}}"><div class="account">{{$user->fname}} {{$user->lname}}</div></button>
+      <button class="button button2" id="{{$kontak->id}}" onclick="showchat('{{$kontak->id}}')" value="{{Auth::user()->fname." ".Auth::user()->lname}}"><img src="dummy.png" alt="Avatar" class="avatar" id="avatarmenu"><div class="account">{{$user->fname}} {{$user->lname}}</div></button>
     @endif
   @endforeach
 </div>
 
-<div class="split right">
-    @if ($kontak)
-      <div class="boxchat">
-        <div class="container">
-            <h4>penjual</h4>
-            <p>Hello. How are you today?</p>
-        </div>
-        <div class="container darker">
-            <h4>pembeli</h4>
-            <p>Hey! I'm fine. Thanks for asking!</p>
-        </div>
-    </div>
-    @endif
+<div class="split right" id="formchat">
+    <div class="boxchat" id="boxchat">
 
+    </div>
     <input type="text" id="message" name="message" placeholder="type message here..">
     <input type="submit" id="send" name="send">
 </div>
@@ -46,7 +33,58 @@
 @endsection
 
 @section('secondContent')
+  <script>
+    var idchat;
+    var y=0;
+    function showchat($idchat)
+    {
+      var email = document.getElementById(`${$idchat}`).value;
+      document.getElementById('formchat').style.visibility = "visible";
+      idchat = $idchat
+    }
 
+    $(document).one('click', '#send', function(e) {
+        var message = document.getElementById('message').value;
+        var nama = document.getElementById(`${idchat}`).value;
+
+        $("#boxchat").append(
+            `<div class=\"container darker\">` +
+                "<h4>" + nama + "</h4>" +
+                "<p>" + message + "</p>"+
+            "</div>"
+        );
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            url: "addchat",
+            type: "post",
+            data: {
+                'idchat':idchat,
+                'message':message,
+            },
+            success:function(data){
+                $("#boxchat").append(
+                    "<div class=\"container\">" +
+                        "<h4>" + nama + "</h4>" +
+                        "<p>" + message + "</p>"+
+                    "</div>"
+                );
+            }
+        })
+    });
+
+
+
+
+
+
+
+  </script>
 @endsection
 
 @section('customStyle')
@@ -143,6 +181,7 @@ input[type=submit]:hover {
   right: 0;
   width: 70%;
   background-color: rgb(243, 243, 243);
+  visibility: hidden;
 }
 
 .container {

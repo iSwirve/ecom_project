@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\barangmodel;
 use App\Models\request_saldo;
 use App\Models\Cart;
+use App\Models\chatdata;
 use App\Models\kontak;
 use App\Models\User;
 use App\Models\VerificationModel;
@@ -438,9 +439,10 @@ class userController extends Controller
         try {
             $id = $req->query('barang');
             $barang = barangmodel::find($id);
-            $kontak = kontak::find(Auth::user());
+            $kontak = kontak::where('pemilik', '=', Auth::user()->email)->orWhere('email', '=', Auth::user()->email)->get();
             if(Auth::user()->email == $barang -> email_penjual)
                 return view('chat');
+
             if(sizeof($kontak)<1)
             {
                 kontak::create([
@@ -453,10 +455,20 @@ class userController extends Controller
         } catch (Exception $e) {
             return view('chat');
         }
-
     }
 
-
+    public function addtochat(Request $req)
+    {
+        $data = $req->all();
+        chatdata::create(
+            [
+                "nama" => Auth::user()->email,
+                "message" => $data["message"],
+                "id_chat" => $data["idchat"],
+            ]
+        );
+        return response()->json(['success' => "sukses"]);
+    }
 }
 function alert($msg)
 {
