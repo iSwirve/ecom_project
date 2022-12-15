@@ -25,22 +25,30 @@
 
 <div class="split right" id="formchat">
     <div class="boxchat" id="boxchat">
-        <input type="text" id="idchat" name="idchat">
-        @foreach($chat as $chate)
-            @if ($chate->id_chat)
-                @if($chate->nama == Auth::user()->email)
-                    <div class="container darker">
-                        <h4>{{$chate->nama}}</h4>
-                        <p>{{$chate->message}}</p>
-                    </div>
-                @else
-                    <div class="container">
-                        <h4>{{$chate->nama}}</h4>
-                        <p>{{$chate->message}}</p>
-                    </div>
-                @endif
+        <input type="hidden" id="idchat" name="idchat">
+        @php
+            $data = DB::table('kontak')->get();
+        @endphp
+        @foreach ($data as $data)
+            @if ($data->pemilik == Auth::user()->email)
+                @foreach($chat as $chate)
+                    @if ($chate->id_chat == $data->id)
+                        @if($chate->nama == Auth::user()->email)
+                            <div class="container darker">
+                                <h4>{{$chate->nama}}</h4>
+                                <p>{{$chate->message}}</p>
+                            </div>
+                        @else
+                            <div class="container">
+                                <h4>{{$chate->nama}}</h4>
+                                <p>{{$chate->message}}</p>
+                            </div>
+                        @endif
+                    @endif
+                @endforeach
             @endif
         @endforeach
+
     </div>
     <input type="text" id="message" name="message" placeholder="type message here..">
     <input type="submit" id="send" name="send">
